@@ -54,9 +54,6 @@ public class MainController {
     
     @Autowired
     private SecurityService securityService;
- 
-    /*@Autowired
-    private CustomerInfoValidator customerInfoValidator;*/
     
     @Autowired
     private AccountValidator accountValidator;
@@ -69,15 +66,7 @@ public class MainController {
         }
         if(logger.isDebugEnabled())
         logger.debug("Target ="+target);
- 
-        // For Cart Form.
-        // (@ModelAttribute("cartForm") @Validated CartInfo cartForm)
-        // For Customer Form.
-        // (@ModelAttribute("customerForm") @Validated CustomerInfo
-        // customerForm)
-        /*if (target.getClass() == CustomerInfo.class) {
-            dataBinder.setValidator(customerInfoValidator);
-        }*/
+        
         if(target.getClass() == Account.class)
         	dataBinder.setValidator(accountValidator);
  
@@ -92,7 +81,6 @@ public class MainController {
     // GET: Show Login Page
     @RequestMapping(value = { "/login" }, method = RequestMethod.GET)
     public String login(HttpServletRequest request) {
- 
     	if(request.getUserPrincipal() != null)
     		throw new AlreadyLoginException();
         return "login";
@@ -108,7 +96,7 @@ public class MainController {
     }
     
     @RequestMapping(value = { "/signUp" }, method = RequestMethod.POST)
-    public String signUpFormProcess(Account account,BindingResult bindingResult,HttpServletRequest request) {
+    public String signUpFormProcess(@Validated Account account,BindingResult bindingResult,HttpServletRequest request) {
     	if(request.getUserPrincipal() != null)
     		throw new AlreadyLoginException();
     	
@@ -117,9 +105,7 @@ public class MainController {
         }
     	String password = account.getPassword();
     	accountDao.saveAccount(account);
-    	System.out.println("ACCOUNT SAVED----------------------------------------"+account);
     	securityService.autologin(account.getUserName(), password);
-    	System.out.println("LOGIN DONE----------------------------------------");
         return "redirect:/productList";
     }
     

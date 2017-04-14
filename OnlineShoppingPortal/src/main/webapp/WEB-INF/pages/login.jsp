@@ -30,10 +30,8 @@
        <!-- /login?error=true -->
        <c:if test="${param.error == 'true'}">
            <div style="color: red; margin: 10px 0px;">
- 
                Login Failed!!!<br /> Reason :
                ${sessionScope["SPRING_SECURITY_LAST_EXCEPTION"].message}
- 
            </div>
        </c:if>
  
@@ -42,12 +40,12 @@
            <table>
                <tr>
                    <td>User Name *</td>
-                   <td><input name="userName" /></td>
+                   <td><input name="userName" required="required"/></td>
                </tr>
  
                <tr>
                    <td>Password *</td>
-                   <td><input type="password" name="password" /></td>
+                   <td><input type="password" name="password" required="required"/></td>
                </tr>
  
                <tr>

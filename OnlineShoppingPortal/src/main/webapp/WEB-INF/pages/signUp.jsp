@@ -43,17 +43,20 @@
                <tr>
                    <td><form:label path="userName">User Name *</form:label></td>
                    <td><form:input path="userName" required="required"/> </td>
+                   <td style="color:red;"><form:errors path="userName"></form:errors> </td>
                </tr>
  
                <tr>
                    <td><form:label path="password">Password *</form:label></td>
                    <td><form:password path="password" required="required"/></td>
+                   <td style="color:red;"><form:errors path="password"></form:errors> </td>
                </tr>
  
  			   <tr>
                    <td><form:label path="confirmPassword">Confirm Password *</form:label></td>
                    <td><form:password path="confirmPassword" required="required"/></td>
-               </tr>
+                   <td style="color:red;"><form:errors path="confirmPassword"></form:errors> </td>
+               </tr> 
                <tr>
                    <td>&nbsp;</td>
                    <td><input type="submit" value="Sign Up" /> <input type="reset"

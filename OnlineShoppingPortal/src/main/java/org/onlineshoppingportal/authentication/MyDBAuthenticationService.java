@@ -3,6 +3,8 @@ package org.onlineshoppingportal.authentication;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.naming.AuthenticationException;
+
 import org.onlineshoppingportal.entity.Account;
 import org.onlineshoppingportal.entity.Role;
 import org.onlineshoppingportal.dao.AccountDao;
@@ -13,6 +15,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -28,31 +31,21 @@ public class MyDBAuthenticationService implements UserDetailsService{
         System.out.println("Account= " + account);
  
         if (account == null) {
-            throw new UsernameNotFoundException("User " //
-                    + username + " was not found in the database");
+            throw new  UsernameNotFoundException("User "+username+" was not found in the database");
         }
  
         Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
         for (Role role : account.getRoles()){
             grantedAuthorities.add(new SimpleGrantedAuthority("ROLE_"+role.getName()));
         }
-        // EMPLOYEE,MANAGER,..
-        //String role = account.getUserRole();
- 
-        //List<GrantedAuthority> grantList = new ArrayList<GrantedAuthority>();
- 
-        // ROLE_EMPLOYEE, ROLE_MANAGER
-        //GrantedAuthority authority = new SimpleGrantedAuthority("ROLE_" + role);
- 
-        //grantList.add(authority);
- 
+      
         boolean enabled = account.isActive();
         boolean accountNonExpired = true;
         boolean credentialsNonExpired = true;
         boolean accountNonLocked = true;
  
-        UserDetails userDetails = (UserDetails) new User(account.getUserName(), //
-                account.getPassword(), enabled, accountNonExpired, //
+        UserDetails userDetails = (UserDetails) new User(account.getUserName(), 
+                account.getPassword(), enabled, accountNonExpired, 
                 credentialsNonExpired, accountNonLocked, grantedAuthorities);
  
         return userDetails;
